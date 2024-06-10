@@ -1,5 +1,5 @@
 <template>
-  <div class="q-gutter-md">
+  <div class="q-gutter-md q-mb-md">
     <!-- <h1>Details</h1> -->
 
     <q-input hint="imię" outlined :disable="true" v-model="firstName" />
@@ -20,11 +20,13 @@
       :disable="isDisabled"
       v-model="postalCode"
     />
-    <q-btn push color="blue" label="Go back" @click="goBack" />
-    <q-btn push color="amber-13" label="Edit" @click="disable" />
-    <q-btn push color="green-13" label="Update" @click="onSubmit" />
-    <q-btn push color="pink-13" label="Delete" @click="deleteEntry(id)" />
-  </div>
+    </div>
+    <div class="">
+      <q-btn push color="blue" label="Go back" @click="goBack" />
+      <q-btn push color="amber-13" label="Edit" @click="disable" />
+      <q-btn push color="green-13" label="Update" @click="onSubmit" />
+      <q-btn push color="pink-13" label="Delete" @click="deleteEntry(id)" />
+    </div>
 </template>
 
 <script setup lang="ts">
