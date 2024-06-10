@@ -70,12 +70,8 @@
       />
 
       <div>
-        <q-btn
-          label="Submit"
-          type="submit"
-          color="primary"
-          @click="showNotif"
-        />
+        <q-btn label="Submit" type="submit" color="primary" />
+        <!-- @click="showNotif" -->
         <q-btn
           label="Reset"
           type="reset"
@@ -88,20 +84,11 @@
   </div>
 </template>
 
-<script setup>
-import { useQuasar } from "quasar";
-import { ref, onMounted } from "vue";
-import axios from "axios";
-import { AddEntry } from '../services/entryService.ts'
+<script lang="ts" setup>
+import { ref } from "vue";
+import { entryServices } from "../services/entryService";
 
-// const $q = useQuasar();
-// function showNotif() {
-//   $q.notify({
-//     message: errMsg.value,
-//     color: "purple",
-//     });
-//     }
-//   const errMsg = ref("");
+const { addEntry } = entryServices();
 
 const firstName = ref(null);
 const lastName = ref(null);
@@ -112,15 +99,23 @@ const address = ref(null);
 const city = ref(null);
 const postalCode = ref(null);
 
-
-
-async function postEntry() {
-  // console.log(formData);
-  await axios.post("/api/address-book", formData);
-}
+const emit = defineEmits<{
+    (e: "reload"):void
+}>()
 
 function onSubmit() {
-  postEntry();
+  const formData = {
+    firstName: firstName.value,
+    lastName: lastName.value,
+    login: login.value,
+    telephone: telephone.value,
+    email: email.value,
+    address: address.value,
+    city: city.value,
+    postalCode: postalCode.value,
+  };
+  addEntry(formData);
+  emit('reload');
 }
 
 function onReset() {

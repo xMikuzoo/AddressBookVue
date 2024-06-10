@@ -1,7 +1,6 @@
 <template>
   <div>
     <!-- <h1>Details</h1> -->
-    <q-btn push color="blue" label="Go back" @click="goBack" />
 
     <q-input hint="imię" outlined :disable="true" v-model="firstName" />
     <q-input hint="nazwisko" outlined :disable="true" v-model="lastName" />
@@ -21,24 +20,18 @@
       :disable="isDisabled"
       v-model="postalCode"
     />
+    <q-btn push color="blue" label="Go back" @click="goBack" />
     <q-btn push color="amber-13" label="Edit" @click="disable" />
-    <q-btn
-      push
-      color="green-13"
-      label="Update"
-      @click="putEntry(entryId, telephone, email, address, city, postalCode)"
-    />
+    <q-btn push color="green-13" label="Update" @click="onSubmit" />
     <q-btn push color="pink-13" label="Delete" @click="deleteEntry(id)" />
   </div>
 </template>
 
 <script setup lang="ts">
-import axios from "axios";
 import { ref, onMounted } from "vue";
-import { Entry } from "../services/entryService";
-import { useRouter } from "vue-router";
+import { Entry, entryServices } from "../services/entryService";
 
-const router = useRouter();
+const { getEntry, deleteEntry, goBack, updateEntry } = entryServices();
 
 const id = ref<number>(0);
 const firstName = ref<string>("");
@@ -66,41 +59,20 @@ const prop = defineProps({
   },
 });
 
-async function goBack() {
-  await router.push(`/`);
-}
-
-async function getEntries(id: number): Promise<Entry> {
-  return (await axios.get<Entry>(`/api/address-book/${id}`)).data;
-}
-
-async function putEntry(
-  id: number,
-  telephone: string,
-  email: string,
-  address: string,
-  city: string,
-  postalCode: string
-) {
-  const superHeroData = {
-    id: id,
-    telephone: telephone,
-    email: email,
-    address: address,
-    city: city,
-    postalCode: postalCode,
+function onSubmit() {
+  const formData = {
+    id: id.value,
+    telephone: telephone.value,
+    email: email.value,
+    address: address.value,
+    city: city.value,
+    postalCode: postalCode.value,
   };
-  console.log(superHeroData);
-  await axios.put("/api/address-book", superHeroData);
-}
-
-async function deleteEntry(id: number) {
-  await axios.delete(`/api/address-book/${id}`);
-  goBack();
+  updateEntry(formData);
 }
 
 async function loadEntry() {
-  entry.value = await getEntries(prop.entryId);
+  entry.value = await getEntry(prop.entryId);
   if (entry.value) {
     id.value = entry.value.id;
     firstName.value = entry.value.firstName;

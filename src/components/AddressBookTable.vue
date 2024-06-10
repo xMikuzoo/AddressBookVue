@@ -1,11 +1,11 @@
 <template>
-  <q-table :rows="newEntries" :columns="columns" @row-click="onRowClick">
+  <q-table :rows="prop.entriesData" :columns="columns" @row-click="onRowClick" :filter="filter" :rows-per-page-options="[10,20,50,100]">
     <template v-slot:top-right>
       <q-input
         borderless
         dense
         debounce="300"
-        v-model.number="entryId"
+        v-model="filter"
         placeholder="Search id"
       >
         <template v-slot:append>
@@ -23,57 +23,71 @@
 }
 </style>
 <script lang="ts" setup>
-import axios from "axios";
-import { ref, onMounted, computed, Ref } from "vue";
+import { ref} from "vue";
 import { useRouter } from "vue-router";
 import { Entry } from "../services/entryService";
 
 const router = useRouter();
+const filter = ref<string>("")
+
+const prop = defineProps<{
+  entriesData: Entry[];
+}>();
+
 const columns = [
   {
+    name: "id",
     label: "ID",
     field: "id",
-    name: "id",
+    // align:'left'
   },
   {
+    name: "firstName",
     label: "Imię ",
     field: "firstName",
-    name: "firstName",
+    // align:'left'
   },
   {
     label: "Nazwisko",
     field: "lastName",
     name: "lastName",
+    // align:'left'
   },
   {
+    name: "Llogin",
     label: "Login",
     field: "login",
-    name: "Llogin",
+    // align:'left'
   },
   {
+    name: "email",
     label: "E-mail",
     field: "email",
-    name: "email",
+    // align:'left'
   },
   {
+    name: "telephone",
     label: "Telefon",
     field: "telephone",
-    name: "telephone",
+    // align:'left'
   },
   {
+    name: "address",
     label: "Adres",
     field: "address",
-    name: "address",
+    // align:'left'
   },
   {
+    name: "city",
     label: "Miasto",
     field: "city",
-    name: "city",
+    // align:'left'
   },
   {
+    name: "postalCode",
     label: "Kod pocztowy",
     field: "postalCode",
-    name: "postalCode",
+    // align:'left'
   },
 ];
 
@@ -82,22 +96,11 @@ function onRowClick(e: Event, entry: Entry) {
   console.log(e);
 }
 
-const entryId = ref<number>();
-
-const entries: Ref<Entry[]> = ref([]);
-const newEntries = computed(() => {
-  if (entryId.value) {
-    return entries.value.filter((x) => x.id === entryId.value);
-  }
-  return entries.value;
-});
-
-async function getEntries() {
-  const response = await axios.get("/api/address-book");
-  entries.value = response.data;
-}
-
-onMounted(() => {
-  getEntries();
-});
+// const entryId = ref<number>();
+// const newEntries = computed(() => {
+//   if (entryId.value) {
+//     return entries.value.filter((x) => x.id === entryId.value);
+//   }
+//   return entries.value;
+// });
 </script>
