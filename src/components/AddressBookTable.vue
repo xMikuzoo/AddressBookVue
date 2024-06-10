@@ -1,5 +1,5 @@
-<template>
-  <q-table
+<template >
+  <q-table class=""
     :rows="prop.entriesData"
     :columns="columns"
     @row-click="onRowClick"
@@ -20,8 +20,8 @@
         </template>
       </q-input>
       <q-btn push color="green" label="Dodaj" @click="dialog = true" />
-      <q-dialog v-model="dialog">
-        <q-card>
+      <q-dialog v-model="dialog" >
+        <q-card class="q-pa-md">
           <q-form @submit="onSubmit" @reset="onReset" class="q-gutter-md">
             <q-input
               filled
@@ -92,7 +92,7 @@
             />
 
             <div>
-              <q-btn label="Submit" type="submit" color="primary" />
+              <q-btn v-close-popup label="Submit" type="submit" color="primary" />
               <!-- @click="showNotif" -->
               <q-btn
                 label="Reset"
@@ -145,8 +145,8 @@ const address = ref(null);
 const city = ref(null);
 const postalCode = ref(null);
 
-function deleteEn(id: number) {
-  deleteEntry(id);
+async function deleteEn(id: number) {
+  await deleteEntry(id);
   emit("reload");
 }
 
@@ -154,7 +154,7 @@ const emit = defineEmits<{
   (e: "reload"): void;
 }>();
 
-function onSubmit() {
+async function onSubmit() {
   const formData = {
     firstName: firstName.value,
     lastName: lastName.value,
@@ -165,7 +165,7 @@ function onSubmit() {
     city: city.value,
     postalCode: postalCode.value,
   };
-  addEntry(formData);
+  await addEntry(formData);
   emit("reload");
 }
 
@@ -244,7 +244,7 @@ const columns = [
   },
   {
     name: "delete",
-    label: "delete",
+    label: "",
     field: "delete",
   },
 ];

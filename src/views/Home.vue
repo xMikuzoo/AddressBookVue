@@ -24,7 +24,7 @@ onMounted(async () => {
 
 </script>
 
-<template>
+<template >
   <div class="column">
     <AddressBookTable  @reload="reload" :entriesData="entriesData" />
     <!-- <q-btn push color="green" label="Dodaj" @click="showAdd" /> -->

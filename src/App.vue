@@ -1,8 +1,8 @@
 <script setup lang="ts"></script>
 
 <template>
-  <h1>AddressBook</h1>
-  <RouterView></RouterView>
+  <h2>AddressBook</h2>
+  <RouterView ></RouterView>
 </template>
 
 <style scoped>
