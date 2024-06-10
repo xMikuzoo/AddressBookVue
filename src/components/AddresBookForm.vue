@@ -1,6 +1,6 @@
 <template>
   <div class="q-pa-md" style="max-width: 400px">
-    <q-form @submit="onSubmit" @reset="onReset" class="q-gutter-md">
+    <q-form @submit="onSubmit" @reset="onReset" class="q-gutter-md" >
       <q-input
         filled
         v-model="firstName"

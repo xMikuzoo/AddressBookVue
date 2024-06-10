@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="q-gutter-md">
     <!-- <h1>Details</h1> -->
 
     <q-input hint="imię" outlined :disable="true" v-model="firstName" />

@@ -1,18 +1,18 @@
 <script setup lang="ts">
 import AddressBookTable from "../components/AddressBookTable.vue";
-import Form from "../components/AddresBookForm.vue";
+// import Form from "../components/AddresBookForm.vue";
 import { ref, onMounted } from "vue";
 import { Entry, entryServices } from "../services/entryService";
 // import { useQuasar } from "quasar";
 
 const { getEntries } = entryServices();
 const entriesData = ref<Entry[]>([]);
-const add = ref<boolean>(false);
+// const add = ref<boolean>(false);
 
-function showAdd() {
-  if (!add.value) add.value = true;
-  else add.value = false;
-}
+// function showAdd() {
+//   if (!add.value) add.value = true;
+//   else add.value = false;
+// }
 
 async function reload() {
   entriesData.value = await getEntries();
@@ -26,16 +26,12 @@ onMounted(async () => {
 
 <template>
   <div class="column">
-    <AddressBookTable :entriesData="entriesData" />
-    <q-btn push color="green" label="Dodaj" @click="showAdd" />
-    <Form  @reload="reload" class="self-center" v-if="add"></Form>
+    <AddressBookTable  @reload="reload" :entriesData="entriesData" />
+    <!-- <q-btn push color="green" label="Dodaj" @click="showAdd" /> -->
+    <!-- <Form  class="self-center" v-if="add"></Form> -->
   </div>
 </template>
 
 <style>
-.self-center {
-  overflow: auto;
-  min-width: 400px;
-  max-width: 400px;
-}
+
 </style>
