@@ -25,7 +25,13 @@ export function entryServices(): any {
 
   async function addEntry(formData: any) {
     // console.log(formData);
-    await axios.post("/api/address-book", formData);
+    await axios.post("/api/address-book", formData).catch((error) => {
+      if (error.response) {
+        // The request was made and the server responded with a status code
+        // that falls out of the range of 2xx
+        console.log(error.response.data);
+      }
+    });
   }
   async function updateEntry(formData: any) {
     //console.log(formData);

@@ -1,12 +1,12 @@
 <template>
-  <q-table :rows="prop.entriesData" :columns="columns" @row-click="onRowClick" :filter="filter" :rows-per-page-options="[10,20,50,100]">
+  <q-table :rows="prop.entriesData" :columns="columns" @row-click="onRowClick" :filter="filter" :rows-per-page-options="[10-20-50]">
     <template v-slot:top-right>
       <q-input
         borderless
         dense
         debounce="300"
         v-model="filter"
-        placeholder="Search id"
+        placeholder="Search"
       >
         <template v-slot:append>
           <q-icon name="search" />

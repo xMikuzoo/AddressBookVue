@@ -87,6 +87,15 @@
 <script lang="ts" setup>
 import { ref } from "vue";
 import { entryServices } from "../services/entryService";
+// import { useQuasar } from 'quasar'
+
+// const $q = useQuasar()
+// function showNotif (err:string) {
+//         $q.notify({
+//           message: err,
+//           color: 'purple'
+//         })
+//       }
 
 const { addEntry } = entryServices();
 

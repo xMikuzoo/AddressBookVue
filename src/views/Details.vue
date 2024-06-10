@@ -53,7 +53,7 @@ const entry = ref<Entry>();
 
 const prop = defineProps({
   entryId: {
-    type: Number,
+    type: String,
     required: true,
     default: 0,
   },
