@@ -1,3 +1,4 @@
+
 import axios from "axios";
 import { useRouter } from "vue-router";
 export interface Entry {
@@ -12,6 +13,10 @@ export interface Entry {
   postalCode: string;
 }
 
+export interface AddEntry {
+  addEntry: Entry
+}
+
 export function entryServices(): any {
   const router = useRouter();
 
@@ -23,8 +28,11 @@ export function entryServices(): any {
     return (await axios.get<Entry>(`/api/address-book/${id}`)).data;
   }
 
-  async function addEntry(formData: any) {
+  async function addEntry(formData: Entry) {
     // console.log(formData);
+    // const addEntry = {
+    //   addEntry: formData
+    // } as AddEntry
     await axios.post("/api/address-book", formData).catch((error) => {
       if (error.response) {
         // The request was made and the server responded with a status code
@@ -33,7 +41,7 @@ export function entryServices(): any {
       }
     });
   }
-  async function updateEntry(formData: any) {
+  async function updateEntry(formData: Entry) {
     //console.log(formData);
     await axios.put("/api/address-book", formData);
   }

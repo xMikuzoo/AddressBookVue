@@ -1,5 +1,6 @@
-<template >
-  <q-table class=""
+<template>
+  <q-table
+    class=""
     :rows="prop.entriesData"
     :columns="columns"
     @row-click="onRowClick"
@@ -20,7 +21,7 @@
         </template>
       </q-input>
       <q-btn push color="green" label="Dodaj" @click="dialog = true" />
-      <q-dialog v-model="dialog" >
+      <q-dialog v-model="dialog" @hide="onReset">
         <q-card class="q-pa-md">
           <q-form @submit="onSubmit" @reset="onReset" class="q-gutter-md">
             <q-input
@@ -92,8 +93,12 @@
             />
 
             <div>
-              <q-btn v-close-popup label="Submit" type="submit" color="primary" />
-              <!-- @click="showNotif" -->
+              <q-btn
+                v-close-popup
+                label="Submit"
+                type="submit"
+                color="primary"
+              />
               <q-btn
                 label="Reset"
                 type="reset"
@@ -104,6 +109,7 @@
               <q-btn v-close-popup label="Close" color="primary" />
             </div>
           </q-form>
+          <!-- <Form @reload="reload"></Form> -->
         </q-card>
       </q-dialog>
     </template>
@@ -128,6 +134,7 @@
 }
 </style>
 <script lang="ts" setup>
+// import Form  from '../components/AddresBookForm.vue'
 import { ref } from "vue";
 import { useRouter } from "vue-router";
 import { Entry } from "../services/entryService";
@@ -136,14 +143,14 @@ import { entryServices } from "../services/entryService";
 const { deleteEntry, addEntry } = entryServices();
 
 const dialog = ref(false);
-const firstName = ref(null);
-const lastName = ref(null);
-const login = ref(null);
-const telephone = ref(null);
-const email = ref(null);
-const address = ref(null);
-const city = ref(null);
-const postalCode = ref(null);
+const firstName = ref<string>(null!);
+const lastName = ref<string>(null!);
+const login = ref<string>(null!);
+const telephone = ref<string>(null!);
+const email = ref<string>(null!);
+const address = ref<string>(null!);
+const city = ref<string>(null!);
+const postalCode = ref<string>(null!);
 
 async function deleteEn(id: number) {
   await deleteEntry(id);
@@ -155,7 +162,8 @@ const emit = defineEmits<{
 }>();
 
 async function onSubmit() {
-  const formData = {
+
+  await addEntry({
     firstName: firstName.value,
     lastName: lastName.value,
     login: login.value,
@@ -164,20 +172,19 @@ async function onSubmit() {
     address: address.value,
     city: city.value,
     postalCode: postalCode.value,
-  };
-  await addEntry(formData);
+  });
   emit("reload");
 }
 
 function onReset() {
-  (firstName.value = null),
-    (lastName.value = null),
-    (login.value = null),
-    (telephone.value = null),
-    (email.value = null),
-    (address.value = null),
-    (city.value = null),
-    (postalCode.value = null);
+  (firstName.value = ''),
+    (lastName.value = ''),
+    (login.value = ''),
+    (telephone.value = ''),
+    (email.value = ''),
+    (address.value = ''),
+    (city.value = ''),
+    (postalCode.value = '');
 }
 
 const router = useRouter();

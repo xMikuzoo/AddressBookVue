@@ -1,6 +1,6 @@
 <template>
   <div class="q-pa-md" style="max-width: 400px">
-    <q-form @submit="onSubmit" @reset="onReset" class="q-gutter-md" >
+    <q-form @submit="onSubmit" @reset="onReset" class="q-gutter-md">
       <q-input
         filled
         v-model="firstName"
@@ -70,8 +70,7 @@
       />
 
       <div>
-        <q-btn label="Submit" type="submit" color="primary" />
-        <!-- @click="showNotif" -->
+        <q-btn v-close-popup label="Submit" type="submit" color="primary" />
         <q-btn
           label="Reset"
           type="reset"
@@ -79,6 +78,7 @@
           flat
           class="q-ml-sm"
         />
+        <q-btn v-close-popup label="Close" color="primary" />
       </div>
     </q-form>
   </div>
@@ -87,15 +87,6 @@
 <script lang="ts" setup>
 import { ref } from "vue";
 import { entryServices } from "../services/entryService";
-// import { useQuasar } from 'quasar'
-
-// const $q = useQuasar()
-// function showNotif (err:string) {
-//         $q.notify({
-//           message: err,
-//           color: 'purple'
-//         })
-//       }
 
 const { addEntry } = entryServices();
 
@@ -109,10 +100,10 @@ const city = ref(null);
 const postalCode = ref(null);
 
 const emit = defineEmits<{
-    (e: "reload"):void
-}>()
+  (e: "reload"): void;
+}>();
 
-function onSubmit() {
+async function onSubmit() {
   const formData = {
     firstName: firstName.value,
     lastName: lastName.value,
@@ -123,8 +114,8 @@ function onSubmit() {
     city: city.value,
     postalCode: postalCode.value,
   };
-  addEntry(formData);
-  emit('reload');
+  await addEntry(formData);
+  emit("reload");
 }
 
 function onReset() {
